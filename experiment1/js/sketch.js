@@ -1,8 +1,3 @@
-// Controls
-// Scroll Wheel = Zoom In/Out
-// Arrow Keys = Pan Scene
-// I used arrow keys to pan the scene instead of the mouse because we might use the mouse to interact with the scene
-
 let sunRadius = 50;
 let rings = [];
 let panX, panY;
@@ -15,17 +10,15 @@ let upArrowPressed = false;
 let downArrowPressed = false;
 
 function setup() {
-  createCanvas(1920, 1080, WEBGL); // Use WEBGL for 3D rendering
+  createCanvas(1920, 1080, WEBGL);
   panX = 0;
   panY = 0;
 
-  // Calculate initial zoom to fit the entire solar system
   let maxRingRadius = 1000; // Assuming the largest ring radius is 1000
   let maxDistance = dist(0, 0, maxRingRadius, maxRingRadius); // Distance from center to the farthest ring
   let maxZoom = min(width, height) / maxDistance; // Maximum zoom to fit the entire solar system
   zoom = maxZoom * 0.9; // Adjusting to have a slight margin around the edges
 
-  // Define each ring separately with comments indicating their positions
   rings.push(new Ring(150)); // Ring 1
   rings.push(new Ring(250)); // Ring 2
   rings.push(new Ring(320)); // Ring 3
@@ -38,13 +31,13 @@ function setup() {
 }
 
 function draw() {
+  updatePan(); // Update pan based on arrow key status
   background(0);
   
-  // Apply pan and zoom transformations
   translate(panX, panY);
   scale(zoom);
 
-  // Apply perspective to create a 3D view
+  // 3D view
   let fov = PI / 3; // Field of view
   let cameraZ = (height / 2.0) / tan(fov / 2.0);
   perspective(fov, width / height, cameraZ / 10.0, cameraZ * 10.0);
@@ -53,7 +46,7 @@ function draw() {
   let rx = QUARTER_PI; // Rotate backward along the x-axis
   rotateX(rx);
 
-  // Temporary Sun
+  // Sun
   //fill(255, 255, 0);
   //ellipse(0, 0, sunRadius * 2);
 
@@ -106,33 +99,6 @@ function updatePan() {
     panY += panSpeed;
   } else if (downArrowPressed) {
     panY -= panSpeed;
-  }
-}
-
-function draw() {
-  updatePan(); // Update pan based on arrow key status
-  background(0);
-  
-  // Apply pan and zoom transformations
-  translate(panX, panY);
-  scale(zoom);
-
-  // Apply perspective to create a 3D view
-  let fov = PI / 3; // Field of view
-  let cameraZ = (height / 2.0) / tan(fov / 2.0);
-  perspective(fov, width / height, cameraZ / 10.0, cameraZ * 10.0);
-
-  // Set rotation angles for the scene
-  let rx = QUARTER_PI; // Rotate backward along the x-axis
-  rotateX(rx);
-
-  // Temporary Sun
-  //fill(255, 255, 0);
-  //ellipse(0, 0, sunRadius * 2);
-
-  // Draw rings
-  for (let i = 0; i < rings.length; i++) {
-    rings[i].show();
   }
 }
 
