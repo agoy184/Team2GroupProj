@@ -13,6 +13,7 @@ let leftArrowPressed = false;
 let rightArrowPressed = false;
 let upArrowPressed = false;
 let downArrowPressed = false;
+let stars = []; // Background Stars
 
 function setup() {
   createCanvas(1920, 1080, WEBGL); // Use WEBGL for 3D rendering
@@ -35,31 +36,18 @@ function setup() {
   rings.push(new Ring(1000)); // Ring 7
   rings.push(new Ring(1200)); // Ring 8
   rings.push(new Ring(1400)); // Ring 9
-}
 
-function draw() {
-  background(0);
-  
-  // Apply pan and zoom transformations
-  translate(panX, panY);
-  scale(zoom);
-
-  // Apply perspective to create a 3D view
-  let fov = PI / 3; // Field of view
-  let cameraZ = (height / 2.0) / tan(fov / 2.0);
-  perspective(fov, width / height, cameraZ / 10.0, cameraZ * 10.0);
-
-  // Set rotation angles for the scene
-  let rx = QUARTER_PI; // Rotate backward along the x-axis
-  rotateX(rx);
-
-  // Temporary Sun
-  //fill(255, 255, 0);
-  //ellipse(0, 0, sunRadius * 2);
-
-  // Draw rings
-  for (let i = 0; i < rings.length; i++) {
-    rings[i].show();
+  // Create Stars
+  for (let i = 0; i < 300; i++) {
+    stars.push({
+      x: 0,
+      y: 0,
+      offset: Math.random() * 360,
+      orbit: (Math.random() + 0.01) * max(width, height),
+      radius: Math.random() * 2,
+      vx: Math.floor(Math.random() * 10) - 5,
+      vy: Math.floor(Math.random() * 10) - 5,
+    });
   }
 }
 
@@ -109,9 +97,35 @@ function updatePan() {
   }
 }
 
+function drawStars() {
+  colorMode(RGB, 255, 255, 255, 1);
+  for (let i = 0; i < stars.length; i++) {
+    let s = stars[i];
+    push();
+    translate(s.x - width / 2, s.y - height / 3, -1000);
+    sphere(5);
+    pop();
+  }
+  updateStars();
+}
+function updateStars() {
+  let originX = width / 2;
+  let originY = height / 2;
+  for (let i = 0; i < stars.length; i++) {
+    let s = stars[i];
+    let rad = (frameCount * (1 / (s.orbit * 2 + s.offset)) + s.offset) % TAU;
+    s.x = originX + cos(rad) * (s.orbit * 2);
+    s.y = originY + sin(rad) * s.orbit;
+  }
+}
+
 function draw() {
+  clear();
   updatePan(); // Update pan based on arrow key status
   background(0);
+  
+  // DrawStars
+  drawStars();
   
   // Apply pan and zoom transformations
   translate(panX, panY);
@@ -127,8 +141,8 @@ function draw() {
   rotateX(rx);
 
   // Temporary Sun
-  //fill(255, 255, 0);
-  //ellipse(0, 0, sunRadius * 2);
+  // fill(255, 255, 0);
+  // ellipse(0, 0, sunRadius * 2);
 
   // Draw rings
   for (let i = 0; i < rings.length; i++) {
