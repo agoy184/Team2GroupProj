@@ -14,6 +14,11 @@ let rightArrowPressed = false;
 let upArrowPressed = false;
 let downArrowPressed = false;
 let stars = []; // Background Stars
+let img;
+
+function preload() {
+  img = loadImage('assets/sun_cropped.jpg');
+}
 
 function setup() {
   createCanvas(1920, 1080, WEBGL); // Use WEBGL for 3D rendering
@@ -108,6 +113,7 @@ function drawStars() {
   }
   updateStars();
 }
+
 function updateStars() {
   let originX = width / 2;
   let originY = height / 2;
@@ -140,11 +146,13 @@ function draw() {
   let rx = QUARTER_PI; // Rotate backward along the x-axis
   rotateX(rx);
 
-  // Temporary Sun
-  fill(255, 255, 0);
-  stroke(252, 252, 3);
+  // Temporary Sun fill
+  //fill(255, 255, 0);
+  texture(img);
+  stroke(252, 144, 3);
+  
+  // Draw the sphere
   sphere(90);
-  //ellipse(0, 0, sunRadius * 2);
 
   // Draw rings
   for (let i = 0; i < rings.length; i++) {
