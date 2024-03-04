@@ -141,8 +141,10 @@ function draw() {
   rotateX(rx);
 
   // Temporary Sun
-  // fill(255, 255, 0);
-  // ellipse(0, 0, sunRadius * 2);
+  fill(255, 255, 0);
+  stroke(252, 252, 3);
+  sphere(90);
+  //ellipse(0, 0, sunRadius * 2);
 
   // Draw rings
   for (let i = 0; i < rings.length; i++) {
