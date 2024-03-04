@@ -47,6 +47,7 @@ function setup() {
       vy: Math.floor(Math.random() * 10) - 5,
     });
 }
+}
 
 function draw() {
   updatePan(); // Update pan based on arrow key status
