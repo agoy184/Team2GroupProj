@@ -168,7 +168,7 @@ function draw() {
   // Temporary Sun fill
   //fill(255, 255, 0);
   texture(img);
-  stroke(252, 144, 3);
+  noStroke();
   
   // Draw the sphere
   sphere(90);
