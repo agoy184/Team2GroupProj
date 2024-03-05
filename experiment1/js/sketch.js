@@ -59,12 +59,23 @@ function draw() {
     mercurySpeed *= 1.05, venusSpeed *= 1.05, earthSpeed *= 1.05, marsSpeed *= 1.05;
   }
 
+  if (keyIsDown(LEFT_ARROW)){
+    mercurySpeed /= 1.05, venusSpeed /= 1.05, earthSpeed /= 1.05, marsSpeed /= 1.05;
+  }
+
   else {
     if (mercurySpeed > 0.008) {
       mercurySpeed /= 1.02,
       venusSpeed /= 1.02,
       earthSpeed /= 1.02,
       marsSpeed /= 1.02;
+    }
+
+    if (mercurySpeed < 0.008) {
+      mercurySpeed *= 1.05,
+      venusSpeed *= 1.05,
+      earthSpeed *= 1.05,
+      marsSpeed *= 1.05;
     }
   }
 }
