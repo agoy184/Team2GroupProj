@@ -22,7 +22,11 @@ let mercuryRevolution = 20,  // Orbital revolution
 let mercurySpeed = 0.008,
     venusSpeed = 0.006,
     earthSpeed = 0.005,
-    marsSpeed = 0.004;
+    marsSpeed = 0.004,
+    jupiterSpeed = 0,
+    saturnSpeed = 0,
+    uranusSpeed = 0,
+    neptunrSpeed = 0;  
       
 let sun;                     // Texture
 let camX, camY, camZ = 700;  // Camera pos
@@ -89,7 +93,7 @@ function drawSun() {
   sphere(200);
   pop();
  
-  // Mercury ring
+  // Mercury orbit
   push();
   translate(x0, y, z0);
   rotateX((PI / 180) * 90);
@@ -97,7 +101,7 @@ function drawSun() {
   torus(300, 0.7, 240);
   pop();
 
-  // Venus ring
+  // Venus orbit
   push();
   translate(x0, y, z0);
   rotateX((PI / 180) * 90);
@@ -105,7 +109,7 @@ function drawSun() {
   torus(450, 0.7, 240);
   pop();
 
-  // Earth ring
+  // Earth orbit
   push();
   translate(x0, y, z0);
   rotateX((PI / 180) * 90);
@@ -113,7 +117,7 @@ function drawSun() {
   torus(600, 0.7, 240);
   pop();
 
-  // Mars ring
+  // Mars orbit
   push();
   translate(x0, y, z0);
   rotateX((PI / 180) * 90);
@@ -156,7 +160,7 @@ function drawEarth() {
   sphere(40);
   pop();
   
-  // Moon ring
+  // Moon orbit
   push();
   translate(x3, y, z3);
   rotateX((PI / 180) * 90);
