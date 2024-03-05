@@ -1,193 +1,174 @@
-let sunRadius = 50;
-let rings = [];
-let panX, panY;
-let zoom;
-let dragging = false;
-let startX, startY;
-let leftArrowPressed = false;
-let rightArrowPressed = false;
-let upArrowPressed = false;
-let downArrowPressed = false;
-let stars = []; // Background Stars
-let img;
+let x0 = 0, y = 0, z0 = 0,   // Sun pos
+    x1 = 0,        z1 = 0,   // Mercury pos
+    x2 = 0,        z2 = 0;   // Venus pos
+    x3 = 0,        z3 = 0,   // Earth pos
+    mx = 0,        mz = 0    // Moon pos
+    x4 = 0,        z4 = 0;   // Mars pos
+    x5 = 0,        z5 = 0,   // Jupiter pos
+    x6 = 0,        z6 = 0;   // Saturn pos
+    x7 = 0,        z7 = 0,   // Uranus pos
+    x8 = 0,        z8 = 0;   // Neptunr pos 
 
+let rotationAngle = 0;       // Self rotation
+let mercuryRevolution = 20,  // Orbital revolution
+    venusRevolution = 20,
+    earthRevolution = 20,
+    marsRevolution = 20,
+    jupiterRevolution = 20,
+    saturnRevolution = 20,
+    uranusRevolution = 20,
+    neptunrRevolution = 20;   
+      
+let sun;                     // Texture
+let camX, camY, camZ = 700;  // Camera pos
+
+ 
 function preload() {
-  img = loadImage('assets/sun_cropped.jpg');
+ sun = loadImage("assets/sun_cropped.jpg");
 }
-
+ 
 function setup() {
-  createCanvas(1920, 1080, WEBGL);
-  panX = 0;
-  panY = 0;
-
-  let maxRingRadius = 1000; // Assuming the largest ring radius is 1000
-  let maxDistance = dist(0, 0, maxRingRadius, maxRingRadius); // Distance from center to the farthest ring
-  let maxZoom = min(width, height) / maxDistance; // Maximum zoom to fit the entire solar system
-  zoom = maxZoom * 0.9; // Adjusting to have a slight margin around the edges
-
-  rings.push(new Ring(150)); // Ring 1
-  rings.push(new Ring(250)); // Ring 2
-  rings.push(new Ring(320)); // Ring 3
-  rings.push(new Ring(410)); // Ring 4
-  rings.push(new Ring(600)); // Ring 5 (Asteroid belt), increased radius to make the gap larger
-  rings.push(new Ring(800)); // Ring 6
-  rings.push(new Ring(1000)); // Ring 7
-  rings.push(new Ring(1200)); // Ring 8
-  rings.push(new Ring(1400)); // Ring 9
-
-  // Create Stars
-  for (let i = 0; i < 300; i++) {
-    stars.push({
-      x: 0,
-      y: 0,
-      offset: Math.random() * 360,
-      orbit: (Math.random() + 0.01) * max(width, height),
-      radius: Math.random() * 2,
-      vx: Math.floor(Math.random() * 10) - 5,
-      vy: Math.floor(Math.random() * 10) - 5,
-    });
+ createCanvas(windowWidth, windowHeight, WEBGL);
 }
-}
-
-function draw() {
-  updatePan(); // Update pan based on arrow key status
-  background(0);
-  
-  translate(panX, panY);
-  scale(zoom);
-
-  // 3D view
-  let fov = PI / 3; // Field of view
-  let cameraZ = (height / 2.0) / tan(fov / 2.0);
-  perspective(fov, width / height, cameraZ / 10.0, cameraZ * 10.0);
-
-  // Set rotation angles for the scene
-  let rx = QUARTER_PI; // Rotate backward along the x-axis
-  rotateX(rx);
-
-  // Sun
-  //fill(255, 255, 0);
-  //ellipse(0, 0, sunRadius * 2);
-
-  // Draw rings
-  for (let i = 0; i < rings.length; i++) {
-    rings[i].show();
-  }
-}
-
-function mouseWheel(event) {
-  zoom += event.delta * 0.01;
-  zoom = constrain(zoom, 0.1, 3); // Limit zoom range
-  return false;
-}
-
-function keyPressed() {
-  // Set flag based on which arrow key is pressed
-  if (keyCode === LEFT_ARROW) {
-    leftArrowPressed = true;
-  } else if (keyCode === RIGHT_ARROW) {
-    rightArrowPressed = true;
-  } else if (keyCode === UP_ARROW) {
-    upArrowPressed = true;
-  } else if (keyCode === DOWN_ARROW) {
-    downArrowPressed = true;
-  }
-}
-
-function keyReleased() {
-  // Reset flag when arrow key is released
-  if (keyCode === LEFT_ARROW) {
-    leftArrowPressed = false;
-  } else if (keyCode === RIGHT_ARROW) {
-    rightArrowPressed = false;
-  } else if (keyCode === UP_ARROW) {
-    upArrowPressed = false;
-  } else if (keyCode === DOWN_ARROW) {
-    downArrowPressed = false;
-  }
-}
-
-function updatePan() {
-  let panSpeed = 10; // Adjust as needed
-  if (leftArrowPressed) {
-    panX += panSpeed;
-  } else if (rightArrowPressed) {
-    panX -= panSpeed;
-  }
-  if (upArrowPressed) {
-    panY += panSpeed;
-  } else if (downArrowPressed) {
-    panY -= panSpeed;
-  }
-}
-
-function drawStars() {
-  colorMode(RGB, 255, 255, 255, 1);
-  for (let i = 0; i < stars.length; i++) {
-    let s = stars[i];
-    push();
-    translate(s.x - width / 2, s.y - height / 3, -1000);
-    sphere(5);
-    pop();
-  }
-  updateStars();
-}
-
-function updateStars() {
-  let originX = width / 2;
-  let originY = height / 2;
-  for (let i = 0; i < stars.length; i++) {
-    let s = stars[i];
-    let rad = (frameCount * (1 / (s.orbit * 2 + s.offset)) + s.offset) % TAU;
-    s.x = originX + cos(rad) * (s.orbit * 2);
-    s.y = originY + sin(rad) * s.orbit;
-  }
-}
-
+ 
 function draw() {
   clear();
-  updatePan(); // Update pan based on arrow key status
   background(0);
+  setLight();
+  drawMercury();
+  drawSun();
+  drawVenus()
+  drawEarth();
+  drawMoon();
+  drawMars();
   
-  // DrawStars
-  drawStars();
+  rotationAngle += 0.01;
   
-  // Apply pan and zoom transformations
-  translate(panX, panY);
-  scale(zoom);
-
-  // Apply perspective to create a 3D view
-  let fov = PI / 3; // Field of view
-  let cameraZ = (height / 2.0) / tan(fov / 2.0);
-  perspective(fov, width / height, cameraZ / 10.0, cameraZ * 10.0);
-
-  // Set rotation angles for the scene
-  let rx = QUARTER_PI; // Rotate backward along the x-axis
-  rotateX(rx);
-
-  // Temporary Sun fill
-  //fill(255, 255, 0);
-  texture(img);
+  // Camera 
+  camX = (mouseX - width / 2) / 10;
+  camY = (mouseY - height / 2) / 10;
+  camera(camX, camY-1500 , camZ+1000, 0, 0, 0, 0, 1, 0);
   noStroke();
-  
-  // Draw the sphere
-  sphere(90);
+}
+ 
+function drawSun() {
+  push();
+  translate(x0, y, z0);
+  texture(sun);
+  rotateY(rotationAngle / 5);
+  sphere(200);
+  pop();
+ 
+  // Mercury ring
+  push();
+  translate(x0, y, z0);
+  rotateX((PI / 180) * 90);
+  fill(240);
+  torus(300, 0.7, 240);
+  pop();
 
-  // Draw rings
-  for (let i = 0; i < rings.length; i++) {
-    rings[i].show();
-  }
+  // Venus ring
+  push();
+  translate(x0, y, z0);
+  rotateX((PI / 180) * 90);
+  fill(240);
+  torus(450, 0.7, 240);
+  pop();
+
+  // Earth ring
+  push();
+  translate(x0, y, z0);
+  rotateX((PI / 180) * 90);
+  fill(240);
+  torus(600, 0.7, 240);
+  pop();
+
+  // Mars ring
+  push();
+  translate(x0, y, z0);
+  rotateX((PI / 180) * 90);
+  fill(240);
+  torus(800, 0.7, 240);
+  pop();
 }
 
-class Ring {
-  constructor(radius) {
-    this.radius = radius;
-  }
+function drawMercury() {
+    x1 = x0 + 300 * cos(mercuryRevolution);
+    z1 = z0 + 300 * sin(mercuryRevolution);
+    push();
+    translate(x1, y, z1);
+    rotateY(rotationAngle);
+    //texture();
+    sphere(20);
+    pop();
+    mercuryRevolution += 0.008;
+}
+ 
+function drawVenus() {
+    x2 = x0 + 450 * cos(venusRevolution);
+    z2 = z0 + 450 * sin(venusRevolution);
+    push();
+    translate(x2, y, z2);
+    rotateY(rotationAngle);
+    //texture();
+    sphere(40);
+    pop();
+    venusRevolution += 0.006;
+}
 
-  show() {
-    noFill();
-    stroke(255);
-    strokeWeight(1);
-    ellipse(0, 0, this.radius * 2);
+function drawEarth() {
+  x3 = x0 + 600 * cos(earthRevolution);
+  z3 = z0 + 600 * sin(earthRevolution);
+  push();
+  translate(x3, y, z3);
+  rotateY(earthRevolution);
+  //texture();
+  sphere(40);
+  pop();
+  
+  // Moon ring
+  push();
+  translate(x3, y, z3);
+  rotateX((PI / 180) * 90);
+  fill(240);
+  torus(60, 0.7, 240);
+  pop();
+  earthRevolution += 0.005;
+}
+ 
+function drawMoon() {
+  mx = x3 + 60 * cos(earthRevolution * 5);
+  mz = z3 + 60 * sin(earthRevolution * 5);
+  push();
+  translate(mx, y, mz);
+  rotateY(-rotationAngle);
+  //texture();
+  sphere(10);
+  pop();
+}
+
+function drawMars() {
+    x4 = x0 + 800 * cos(marsRevolution);
+    z4 = z0 + 800 * sin(marsRevolution);
+    push();
+    translate(x4, y, z4);
+    rotateY(rotationAngle);
+    //texture();
+    sphere(30);
+    pop();
+    marsRevolution += 0.004;
+}
+ 
+ 
+function setLight() {
+ directionalLight(255, 255, 255, 0, 0, -1)
+ directionalLight(255, 255, 255, 0, 1, -1)
+}
+ 
+function mouseWheel(event) {
+  if (event.deltaY > 0) {
+    camZ += 20; 
+  } else {
+    camZ -= 20;
   }
 }
