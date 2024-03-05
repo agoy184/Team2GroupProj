@@ -14,6 +14,7 @@ let rightArrowPressed = false;
 let upArrowPressed = false;
 let downArrowPressed = false;
 let stars = []; // Background Stars
+let meteors = [];
 
 function setup() {
   createCanvas(1920, 1080, WEBGL); // Use WEBGL for 3D rendering
@@ -119,6 +120,34 @@ function updateStars() {
   }
 }
 
+function mousePressed() {
+  meteors.push({
+    x:mouseX,
+    y:mouseY - 175,
+    depth:100,
+  });
+}
+
+function drawMeteors() {
+  let originX = width / 2;
+  let originY = height / 2;
+  for (let i =0; i < meteors.length; i++) {
+    let s = meteors[i];
+    push();
+    translate(s.x - width / 2, s.y - height / 3, s.depth);
+    sphere(5);
+    pop();
+  }
+  updateMeteors();
+}
+
+function updateMeteors() {
+  for (let i =0; i < meteors.length; i++) {
+    let s = meteors[i];
+    s.depth -= 10;
+  }
+}
+
 function draw() {
   clear();
   updatePan(); // Update pan based on arrow key status
@@ -126,6 +155,7 @@ function draw() {
   
   // DrawStars
   drawStars();
+  drawMeteors();
   
   // Apply pan and zoom transformations
   translate(panX, panY);
