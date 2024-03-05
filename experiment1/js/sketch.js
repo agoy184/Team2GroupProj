@@ -18,6 +18,11 @@ let mercuryRevolution = 20,  // Orbital revolution
     saturnRevolution = 20,
     uranusRevolution = 20,
     neptunrRevolution = 20;   
+
+let mercurySpeed = 0.008,
+    venusSpeed = 0.006,
+    earthSpeed = 0.005,
+    marsSpeed = 0.004;
       
 let sun;                     // Texture
 let camX, camY, camZ = 700;  // Camera pos
@@ -49,7 +54,21 @@ function draw() {
   camY = (mouseY - height / 2) / 10;
   camera(camX, camY-1500 , camZ+1000, 0, 0, 0, 0, 1, 0);
   noStroke();
+
+  if (keyIsDown(RIGHT_ARROW)){
+    mercurySpeed *= 1.05, venusSpeed *= 1.05, earthSpeed *= 1.05, marsSpeed *= 1.05;
+  }
+
+  else {
+    if (mercurySpeed > 0.008) {
+      mercurySpeed /= 1.02,
+      venusSpeed /= 1.02,
+      earthSpeed /= 1.02,
+      marsSpeed /= 1.02;
+    }
+  }
 }
+
  
 function drawSun() {
   push();
@@ -101,7 +120,7 @@ function drawMercury() {
     //texture();
     sphere(20);
     pop();
-    mercuryRevolution += 0.008;
+    mercuryRevolution += mercurySpeed;
 }
  
 function drawVenus() {
@@ -113,7 +132,7 @@ function drawVenus() {
     //texture();
     sphere(40);
     pop();
-    venusRevolution += 0.006;
+    venusRevolution += venusSpeed;
 }
 
 function drawEarth() {
@@ -133,7 +152,7 @@ function drawEarth() {
   fill(240);
   torus(60, 0.7, 240);
   pop();
-  earthRevolution += 0.005;
+  earthRevolution += earthSpeed;
 }
  
 function drawMoon() {
@@ -156,7 +175,7 @@ function drawMars() {
     //texture();
     sphere(30);
     pop();
-    marsRevolution += 0.004;
+    marsRevolution += marsSpeed;
 }
  
  
@@ -170,5 +189,11 @@ function mouseWheel(event) {
     camZ += 20; 
   } else {
     camZ -= 20;
+  }
+}
+
+function keyPressed() {
+  if (keyCode == LEFT_ARROW){
+    mercurySpeed, venusSpeed, earthSpeed, marsSpeed *= 1.5;
   }
 }
