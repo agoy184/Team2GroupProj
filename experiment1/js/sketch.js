@@ -50,8 +50,8 @@ let sun,                    // Texture
 let camX, camY, camZ = 700; // Camera pos
 let pano;
 function preload() {
- sun = loadImage("assets/sun_cropped.jpg");
- pano = loadImage('assets/BiggerMilk.jpeg');
+ pano = loadImage('assets/stars.jpeg');
+ sun = loadImage("assets/sun.jpeg");
  // mercury = loadImage("assets/");
  // venus = loadImage("assets/");
  // earth = loadImage("assets/");
@@ -68,8 +68,8 @@ function setup() {
 }
  
 function draw() {
-  clear();
-  background(0);
+
+  panorama(pano);
   setLight();
   drawMercury();
   drawSun();
@@ -82,7 +82,7 @@ function draw() {
   drawUranus();
   drawNeptune();
 
-  //panorama(pano);
+  
 
   rotationAngle += 0.01;
   
