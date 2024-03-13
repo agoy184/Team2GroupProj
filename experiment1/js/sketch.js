@@ -335,8 +335,18 @@ function drawNeptune() {
 }
  
 function setLight() {
- directionalLight(255, 255, 255, 0, 0, -1)
- directionalLight(255, 255, 255, 0, 1, -1)
+  // Light from the top
+  directionalLight(255, 255, 255, 0, -1, 0);
+  // Light from the bottom
+  directionalLight(255, 255, 255, 0, 1, 0);
+  // Light from the front
+  directionalLight(255, 255, 255, 0, 0, 1);
+  // Light from the back
+  directionalLight(255, 255, 255, 0, 0, -1);
+  // Light from the right
+  directionalLight(255, 255, 255, 1, 0, 0);
+  // Light from the left
+  directionalLight(255, 255, 255, -1, 0, 0);
 }
  
 /*function mouseWheel(event) {
