@@ -65,10 +65,16 @@ function preload() {
  
 function setup() {
  createCanvas(windowWidth, windowHeight, WEBGL);
+ zoomSlider = createSlider(-16000, 16000, 800);
+ zoomSlider.position(10, 10);
+ zoomSlider.style('width', '750px');
 }
+
+
  
 function draw() {
 
+  camZ = zoomSlider.value();
   panorama(pano);
   setLight();
   drawMercury();
@@ -333,13 +339,13 @@ function setLight() {
  directionalLight(255, 255, 255, 0, 1, -1)
 }
  
-function mouseWheel(event) {
+/*function mouseWheel(event) {
   if (event.deltaY > 0) {
     camZ += 50; 
   } else {
     camZ -= 50;
   }
-}
+}*/
 
 function keyPressed() {
   if (keyCode == LEFT_ARROW){
