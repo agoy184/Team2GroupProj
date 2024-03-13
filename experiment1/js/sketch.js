@@ -52,15 +52,15 @@ let pano;
 function preload() {
  pano = loadImage('assets/stars.jpeg');
  sun = loadImage("assets/sun.jpeg");
- // mercury = loadImage("assets/");
- // venus = loadImage("assets/");
- // earth = loadImage("assets/");
- // moon = loadImage("assets/");
- // mars = loadImage("assets/");
- // jupiter = loadImage("assets/");
- // saturn = loadImage("assets/");
- // uranus = loadImage("assets/");
- // neptune = loadImage("assets/");
+ mercury = loadImage("assets/mercury.jpeg");
+ venus = loadImage("assets/venus.jpeg");
+ earth = loadImage("assets/earth.jpeg");
+ moon = loadImage("assets/moon.jpeg");
+ mars = loadImage("assets/mars.jpeg");
+ jupiter = loadImage("assets/jupiter.jpeg");
+ saturn = loadImage("assets/saturn.jpeg");
+ uranus = loadImage("assets/uranus.jpeg");
+ neptune = loadImage("assets/neptune.jpeg");
 }
  
 function setup() {
@@ -203,7 +203,7 @@ function drawMercury() {
     push();
     translate(x1, y, z1);
     rotateY(rotationAngle);
-    //texture(mercury);
+    texture(mercury);
     sphere(20);
     pop();
     mercuryRevolution += mercurySpeed;
@@ -215,7 +215,7 @@ function drawVenus() {
     push();
     translate(x2, y, z2);
     rotateY(rotationAngle);
-    //texture(venus);
+    texture(venus);
     sphere(40);
     pop();
     venusRevolution += venusSpeed;
@@ -227,7 +227,7 @@ function drawEarth() {
   push();
   translate(x3, y, z3);
   rotateY(earthRevolution);
-  //texture(earth);
+  texture(earth);
   sphere(40);
   pop();
   
@@ -247,7 +247,7 @@ function drawMoon() {
   push();
   translate(mx, y, mz);
   rotateY(-rotationAngle);
-  //texture(moon);
+  texture(moon);
   sphere(10);
   pop();
 }
@@ -258,7 +258,7 @@ function drawMars() {
     push();
     translate(x4, y, z4);
     rotateY(rotationAngle);
-    //texture(mars);
+    texture(mars);
     sphere(30);
     pop();
     marsRevolution += marsSpeed;
@@ -270,7 +270,7 @@ function drawJupiter() {
   push();
   translate(x5, y, z5);
   rotateY(rotationAngle);
-  //texture(jupiter);
+  texture(jupiter);
   sphere(150);
   pop();
   jupiterRevolution += jupiterSpeed;
@@ -283,7 +283,7 @@ function drawSaturn() {
   push();
   translate(x6, y, z6);
   rotateY(rotationAngle);
-  //texture(saturn);
+  texture(saturn);
   sphere(110);
   pop();
 
@@ -316,7 +316,7 @@ function drawUranus() {
   translate(x7, y, z7);
   // Uranus‘ special direction of rotation 
   rotateX(rotationAngle);
-  //texture(uranus);
+  texture(uranus);
   sphere(80);
   pop();
   uranusRevolution += uranusSpeed;
@@ -328,7 +328,7 @@ function drawNeptune() {
   push();
   translate(x8, y, z8);
   rotateY(rotationAngle);
-  //texture(neptune);
+  texture(neptune);
   sphere(80);
   pop();
   neptuneRevolution += neptuneSpeed;
