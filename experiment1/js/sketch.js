@@ -99,11 +99,11 @@ function draw() {
   noStroke();
 
   if (keyIsDown(RIGHT_ARROW)){
-    mercurySpeed *= 1.05, venusSpeed *= 1.05, earthSpeed *= 1.05, marsSpeed *= 1.05;
+    mercurySpeed *= 1.05, venusSpeed *= 1.05, earthSpeed *= 1.05, marsSpeed *= 1.05, jupiterSpeed *= 1.05, saturnSpeed *= 1.05, uranusSpeed *= 1.05, neptuneSpeed *= 1.05;
   }
 
   if (keyIsDown(LEFT_ARROW)){
-    mercurySpeed /= 1.05, venusSpeed /= 1.05, earthSpeed /= 1.05, marsSpeed /= 1.05;
+    mercurySpeed /= 1.05, venusSpeed /= 1.05, earthSpeed /= 1.05, marsSpeed /= 1.05, jupiterSpeed /= 1.05, saturnSpeed /= 1.05, uranusSpeed /= 1.05, neptuneSpeed /= 1.05;
   }
 
   else {
@@ -111,14 +111,22 @@ function draw() {
       mercurySpeed /= 1.02,
       venusSpeed /= 1.02,
       earthSpeed /= 1.02,
-      marsSpeed /= 1.02;
+      marsSpeed /= 1.02,
+      jupiterSpeed /= 1.02,
+      saturnSpeed /= 1.02,
+      uranusSpeed /= 1.02,
+      neptuneSpeed /= 1.02;
     }
 
     if (mercurySpeed < 0.008) {
       mercurySpeed *= 1.05,
       venusSpeed *= 1.05,
       earthSpeed *= 1.05,
-      marsSpeed *= 1.05;
+      marsSpeed *= 1.05,
+      jupiterSpeed *= 1.05, 
+      saturnSpeed *= 1.05, 
+      uranusSpeed *= 1.05, 
+      neptuneSpeed *= 1.05;
     }
   }
 }
@@ -357,8 +365,8 @@ function setLight() {
   }
 }*/
 
-function keyPressed() {
+/*function keyPressed() {
   if (keyCode == LEFT_ARROW){
-    mercurySpeed, venusSpeed, earthSpeed, marsSpeed *= 1.5;
+    mercurySpeed, venusSpeed, earthSpeed, marsSpeed, jupiterSpeed, saturnSpeed, uranusSpeed, neptuneSpeed *= 1.5;
   }
-}
+*/
